@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://bpob42wa4x84j"]
+
+[ext_resource type="Script" path="res://systems/hittable_system/HittableSystem.gd" id="1_rk7ci"]
+
+[node name="HittableSystem" type="Area2D"]
+collision_layer = 0
+collision_mask = 4
+script = ExtResource("1_rk7ci")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

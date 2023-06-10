@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://bv0mb6yx3lfvk"]
+
+[ext_resource type="Script" path="res://systems/shoot_system/ShootSystem.gd" id="1_dc0b7"]
+
+[node name="ShootSystem" type="Node"]
+script = ExtResource("1_dc0b7")
+
+[node name="Cooldown" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[connection signal="timeout" from="Cooldown" to="." method="_on_cooldown_timeout"]

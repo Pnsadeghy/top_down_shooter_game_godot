@@ -1,0 +1,27 @@
+[gd_scene load_steps=6 format=3 uid="uid://btapt5mif03ps"]
+
+[ext_resource type="Script" path="res://entities/weapons/Weapon.gd" id="1_taqgy"]
+[ext_resource type="Texture2D" uid="uid://cugykuc07ry7c" path="res://assets/kenney_top-down-shooter/PNG/weapon_gun.png" id="2_d7iqu"]
+[ext_resource type="PackedScene" uid="uid://dts5l8gjxo3cv" path="res://entities/bullet_flash/bullet_flash.tscn" id="3_1xop0"]
+[ext_resource type="PackedScene" uid="uid://bv0mb6yx3lfvk" path="res://systems/shoot_system/shoot_system.tscn" id="4_57b0k"]
+[ext_resource type="PackedScene" uid="uid://djjsriuicvled" path="res://entities/bullet/bullet.tscn" id="5_estob"]
+
+[node name="WeaponGun" type="Node2D"]
+script = ExtResource("1_taqgy")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("2_d7iqu")
+
+[node name="BulletFlash" parent="." instance=ExtResource("3_1xop0")]
+position = Vector2(22, 4.48227e-05)
+rotation = -1.5708
+
+[node name="ShootPoint" type="Marker2D" parent="."]
+position = Vector2(10, 4.48227e-05)
+rotation = -1.5708
+
+[node name="ShootSystem" parent="." node_paths=PackedStringArray("shoot_center", "bullet_flash") instance=ExtResource("4_57b0k")]
+shoot_center = NodePath("../ShootPoint")
+bullet_scene = ExtResource("5_estob")
+bullet_flash = NodePath("../BulletFlash")

@@ -1,0 +1,80 @@
+[gd_scene load_steps=11 format=3 uid="uid://ctvphhkrcfp23"]
+
+[ext_resource type="Texture2D" uid="uid://dn7dxr8cbyu8r" path="res://assets/kenney_top-down-shooter/Spritesheet/spritesheet_characters.png" id="1_e1631"]
+[ext_resource type="Script" path="res://entities/team/team.gd" id="1_qvbwi"]
+[ext_resource type="PackedScene" uid="uid://bpob42wa4x84j" path="res://systems/hittable_system/hittable_system.tscn" id="2_xymr1"]
+[ext_resource type="PackedScene" uid="uid://btapt5mif03ps" path="res://entities/weapons/weapon_gun/weapon_gun.tscn" id="3_10kfx"]
+[ext_resource type="PackedScene" uid="uid://bpqmo5qn0fyg3" path="res://systems/enemy_ai/EnemyAI.tscn" id="4_h0aeb"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_brkj6"]
+radius = 15.0
+height = 42.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0vjhq"]
+radius = 15.0
+height = 42.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0wpr7"]
+radius = 167.027
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_24cmj"]
+size = Vector2(451, 226)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_uhon0"]
+size = Vector2(635, 226)
+
+[node name="team" type="CharacterBody2D" groups=["player"]]
+collision_mask = 11
+script = ExtResource("1_qvbwi")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(-1, 0)
+texture = ExtResource("1_e1631")
+region_enabled = true
+region_rect = Rect2(390, 0, 33, 43)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_brkj6")
+
+[node name="HittableSystem" parent="." instance=ExtResource("2_xymr1")]
+position = Vector2(11, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HittableSystem"]
+position = Vector2(-11, 0)
+shape = SubResource("CapsuleShape2D_0vjhq")
+
+[node name="WeaponGun" parent="." instance=ExtResource("3_10kfx")]
+position = Vector2(18, 9)
+type = 1
+
+[node name="AI" parent="." node_paths=PackedStringArray("weapon", "character") instance=ExtResource("4_h0aeb")]
+weapon = NodePath("../WeaponGun")
+character = NodePath("..")
+
+[node name="WallChecker" type="RayCast2D" parent="AI"]
+enabled = false
+collision_mask = 8
+
+[node name="DetectionZone" type="Area2D" parent="AI"]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AI/DetectionZone"]
+shape = SubResource("CircleShape2D_0wpr7")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="AI/DetectionZone"]
+position = Vector2(156.5, 1)
+shape = SubResource("RectangleShape2D_24cmj")
+
+[node name="FollowZone" type="Area2D" parent="AI"]
+position = Vector2(129, 0)
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AI/FollowZone"]
+position = Vector2(119.5, 0)
+shape = SubResource("RectangleShape2D_uhon0")
+debug_color = Color(0.768627, 0, 0.258824, 0.419608)
+
+[connection signal="on_health_changed" from="HittableSystem" to="." method="_on_hittable_system_on_health_changed" flags=18]

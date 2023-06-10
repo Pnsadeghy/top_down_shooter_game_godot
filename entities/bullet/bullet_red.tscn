@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=3 uid="uid://bfhc2l6syuh36"]
+
+[ext_resource type="Script" path="res://entities/bullet/Bullet.gd" id="1_j35ga"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y5wyu"]
+size = Vector2(4, 10)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_riuk2"]
+load_path = "res://.godot/imported/onlyObjects_default.png-501ac0af09e674369817ed9463a0fba1.ctex"
+
+[node name="Bullet" type="Area2D"]
+collision_layer = 4
+collision_mask = 8
+script = ExtResource("1_j35ga")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_y5wyu")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(1, 0, 0, 1)
+texture_filter = 1
+texture = SubResource("CompressedTexture2D_riuk2")
+region_enabled = true
+region_rect = Rect2(198, 46, 4, 10)
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

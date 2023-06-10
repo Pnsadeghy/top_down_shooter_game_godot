@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://djjsriuicvled"]
+
+[ext_resource type="Script" path="res://entities/bullet/Bullet.gd" id="1_awm35"]
+[ext_resource type="Texture2D" uid="uid://cn4vjsc2h0fkx" path="res://assets/kenney_top-down-shooter/Spritesheet/onlyObjects_default.png" id="1_gyhsb"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y5wyu"]
+size = Vector2(4, 10)
+
+[node name="Bullet" type="Area2D"]
+collision_layer = 4
+collision_mask = 8
+script = ExtResource("1_awm35")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_y5wyu")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_gyhsb")
+region_enabled = true
+region_rect = Rect2(198, 46, 4, 10)
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

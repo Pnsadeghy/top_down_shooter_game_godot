@@ -1,0 +1,38 @@
+[gd_scene load_steps=7 format=3 uid="uid://cuhvgf63l38op"]
+
+[ext_resource type="Script" path="res://entities/player/player.gd" id="1_67yvi"]
+[ext_resource type="Texture2D" uid="uid://dn7dxr8cbyu8r" path="res://assets/kenney_top-down-shooter/Spritesheet/spritesheet_characters.png" id="1_hxicf"]
+[ext_resource type="PackedScene" uid="uid://dywech1s86cpb" path="res://entities/weapons/weapon_silencer/weapon_silencer.tscn" id="4_bftuy"]
+[ext_resource type="PackedScene" uid="uid://bpob42wa4x84j" path="res://systems/hittable_system/hittable_system.tscn" id="6_jx5or"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2n7um"]
+radius = 15.0
+height = 42.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_sk3vd"]
+radius = 15.0
+height = 42.0
+
+[node name="Player" type="CharacterBody2D" groups=["player"]]
+collision_mask = 11
+script = ExtResource("1_67yvi")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_hxicf")
+region_enabled = true
+region_rect = Rect2(350, 0, 37, 43)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_2n7um")
+
+[node name="HittableSystem" parent="." instance=ExtResource("6_jx5or")]
+position = Vector2(11, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HittableSystem"]
+position = Vector2(-11, 0)
+shape = SubResource("CapsuleShape2D_sk3vd")
+
+[node name="Weapon" parent="." instance=ExtResource("4_bftuy")]
+position = Vector2(24, 11)
+type = 1
